@@ -1,6 +1,9 @@
 tasks:
 	@git grep -EI "TODO|FIXME" | grep -v -E '^Makefile:'
 
+test-deps:
+	pip install pytest pytest-cov pep8 backports.tempfile
+
 test:
 	pytest -v --cov=dotenvy --cov-report=term-missing
 
