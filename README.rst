@@ -13,7 +13,7 @@ dotenvy
     :target: https://raw.githubusercontent.com/chickenzord/dotenvy/master/LICENSE.txt
     :alt: MIT license
 
-dotenv handler for python
+Dotenv handler for Python
 
 
 install
@@ -27,7 +27,7 @@ install
 sample usages
 -------------
 
-common usage ::
+Common usage ::
 
   from dotenvy import load_env, read_file
   from os import environ
@@ -35,7 +35,7 @@ common usage ::
   load_env(read_file('.env'))
   my_var = environ.get('MY_VAR')
 
-loading dotenv file to a dict with type casting ::
+Loading dotenv file to a dict with type casting ::
 
   from dotenvy import read_file, truthy
 
