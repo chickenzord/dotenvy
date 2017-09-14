@@ -5,18 +5,22 @@ test-deps:
 	pip install pytest pytest-cov pep8 backports.tempfile
 
 test:
-	pytest -v --cov=dotenvy --cov-report=term-missing
+	pytest
 
 style-check:
-	pep8 -v .
+	pep8 .
 	@echo 'OK'
 
 style-fix:
-	autopep8 -v --in-place $$(find . -name '*.py')
+	autopep8 --in-place $$(find . -name '*.py')
 
 compat-fix:
 	pasteurize -wn src tests
 
 fix: style-fix compat-fix
 
-.PHONY: tasks test style-check style-fix compat-fix fix
+.PHONY: tasks \
+	test test-deps \
+	style-check style-fix \
+	compat-fix \
+	fix
