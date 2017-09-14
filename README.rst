@@ -3,15 +3,24 @@ dotenvy
 
 .. image:: https://img.shields.io/travis/chickenzord/dotenvy.svg?style=flat-square
     :target: https://travis-ci.org/chickenzord/dotenvy
-    :alt: Build Status
+    :alt: Build status
 
 .. image:: https://img.shields.io/coveralls/chickenzord/dotenvy.svg?style=flat-square
     :target: https://coveralls.io/github/chickenzord/dotenvy
-    :alt: Coverage Status
+    :alt: Coverage status
 
 .. image:: https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square
     :target: https://raw.githubusercontent.com/chickenzord/dotenvy/master/LICENSE.txt
     :alt: MIT license
+
+.. image:: https://img.shields.io/pypi/v/dotenvy.svg?style=flat-square
+    :target: https://pypi.python.org/pypi/dotenvy
+    :alt: PyPI package version
+
+.. image:: https://img.shields.io/pypi/pyversions/dotenvy.svg?style=flat-square
+    :target: https://pypi.python.org/pypi/dotenvy
+    :alt: PyPI python version
+
 
 Dotenv handler for Python
 
