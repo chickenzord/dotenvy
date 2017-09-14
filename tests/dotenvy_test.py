@@ -16,6 +16,8 @@ FILE_CONTENT = """
         HELLO=WORLD
         lorem="ipsum"
         dolor='sit amet'
+        blank=''
+        blank_too=
         """
 
 
@@ -26,6 +28,8 @@ def test_load_string():
     assert environ.get('HELLO') == 'WORLD'
     assert environ.get('lorem') == 'ipsum'
     assert environ.get('dolor') == 'sit amet'
+    assert environ.get('blank') == ''
+    assert environ.get('blank_too') == ''
 
     environ.clear()
     environ.update(backup)
@@ -38,7 +42,9 @@ def test_read_file():
             f.write(FILE_CONTENT.encode('utf-8'))
 
         envs = dotenvy.read_file(f.name)
-        assert len(envs) == 3
+        assert len(envs) == 5
         assert envs['HELLO'] == 'WORLD'
         assert envs['lorem'] == 'ipsum'
         assert envs['dolor'] == 'sit amet'
+        assert envs['blank'] == ''
+        assert envs['blank_too'] == ''

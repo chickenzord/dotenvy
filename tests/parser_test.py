@@ -7,6 +7,7 @@ standard_library.install_aliases()
 
 from dotenvy import parser
 from dotenvy import exception
+from dotenvy import truthy
 import pytest
 
 
@@ -130,3 +131,24 @@ def test_parse_string():
     assert envs['dolor'] == 'sit amet'
 
     # TODO add negative cases for `parser.parse_string`
+
+
+def test_parse_string_with_schema():
+    string = '''
+    INT=1406
+    FLOAT=14.06
+    BOOLEAN_TRUE=1
+    BOOLEAN_FALSE=0
+    '''
+    schema = {
+        'INT': int,
+        'FLOAT': float,
+        'BOOLEAN_TRUE': truthy,
+        'BOOLEAN_FALSE': truthy
+    }
+    envs = parser.parse_string(string, schema=schema)
+    assert len(envs) == 4
+    assert envs['INT'] == 1406
+    assert envs['FLOAT'] == 14.06
+    assert envs['BOOLEAN_TRUE'] is True
+    assert envs['BOOLEAN_FALSE'] is False

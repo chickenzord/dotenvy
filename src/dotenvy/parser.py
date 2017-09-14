@@ -14,6 +14,10 @@ import re
 QUOTES = ['"', '\'']
 
 
+def truthy(string):
+    return string.lower() in ['1', 'true', 'yes', 'on']
+
+
 def is_blank(text):
     return text.strip() == ''
 
@@ -62,7 +66,14 @@ def parse_line(line):
     return (key, parse_quoted(val))
 
 
-def parse_string(string):
+def parse_string(string, schema={}, *args, **kwargs):
     pairs = [parse_line(line)
              for line in string.splitlines() if is_pair(line.strip())]
-    return {key: val for key, val in pairs}
+    envs = {key: val for key, val in pairs}
+
+    for key in schema:
+        cast = schema[key]
+        if key in envs:
+            envs[key] = cast(envs[key])
+
+    return envs

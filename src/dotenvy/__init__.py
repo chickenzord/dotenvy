@@ -8,6 +8,7 @@ standard_library.install_aliases()
 
 from os import environ
 from .parser import parse_string
+from .parser import truthy
 
 
 def load_env(envs):
@@ -19,9 +20,9 @@ def load_string(string):
     load_env(parse_string(string))
 
 
-def read(file):
-    return parse_string(file.read())
+def read(file, schema={}, *args, **kwargs):
+    return parse_string(file.read(), *args, **kwargs)
 
 
-def read_file(filepath='.env'):
-    return read(open(filepath))
+def read_file(filepath, schema={}, *args, **kwargs):
+    return read(open(filepath), *args, **kwargs)
