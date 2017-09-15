@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 GITHUB_REPO = 'chickenzord/dotenvy'
 VERSION = '0.1.0'
-ARCHIVE_URL = 'https://github.com/%s/archive/%s.tar.gz' % (GITHUB_REPO, VERSION)
+ARCHIVE_URL = 'https://github.com/%s/archive/v%s.tar.gz' % (GITHUB_REPO, VERSION)
 
 setup(
     name='dotenvy',
