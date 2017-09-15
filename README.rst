@@ -25,16 +25,17 @@ dotenvy
 Dotenv handler for Python
 
 
-install
--------
+usages
+------
 
- ::
+Installing ::
 
   pip install dotenvy
 
+Running tests ::
 
-sample usages
--------------
+  pip install tox
+  tox
 
 Common usage ::
 

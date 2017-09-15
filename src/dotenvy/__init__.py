@@ -8,7 +8,7 @@ standard_library.install_aliases()
 
 from os import environ
 from .parser import parse_string
-from .parser import truthy
+from .parser import truthy  # noqa
 
 
 def load_env(envs):

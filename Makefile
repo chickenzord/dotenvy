@@ -1,15 +1,8 @@
 tasks:
 	@git grep -EI "TODO|FIXME" | grep -v -E '^Makefile:'
 
-test-deps:
-	pip install pytest pytest-cov pep8 backports.tempfile
-
 test:
-	pytest
-
-style-check:
-	pep8 .
-	@echo 'OK'
+	tox
 
 style-fix:
 	autopep8 --in-place $$(find . -name '*.py')
@@ -19,8 +12,5 @@ compat-fix:
 
 fix: style-fix compat-fix
 
-.PHONY: tasks \
-	test test-deps \
-	style-check style-fix \
-	compat-fix \
-	fix
+.PHONY: tasks test  \
+	style-fix compat-fix fix

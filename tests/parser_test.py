@@ -144,7 +144,7 @@ def test_parse_string_with_schema():
         'INT': int,
         'FLOAT': float,
         'BOOLEAN_TRUE': truthy,
-        'BOOLEAN_FALSE': truthy
+        'BOOLEAN_FALSE': truthy,
     }
     envs = parser.parse_string(string, schema=schema)
     assert len(envs) == 4
