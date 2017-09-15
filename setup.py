@@ -1,9 +1,9 @@
 from setuptools import setup, find_packages
 
 
-GITHUB_REPO = 'chickenzord/dotenvy'
+REPO_NAME = 'chickenzord/dotenvy'
 VERSION = '0.1.1'
-ARCHIVE_URL = 'https://github.com/%s/archive/v%s.tar.gz' % (GITHUB_REPO, VERSION)
+ARCHIVE_URL = 'https://github.com/%s/archive/v%s.tar.gz' % (REPO_NAME, VERSION)
 
 setup(
     name='dotenvy',
@@ -24,7 +24,7 @@ setup(
     download_url=ARCHIVE_URL,
     license='MIT',
     keywords=['dotenv', 'configuration', 'environment'],
-    url='https://github.com/%s' % (GITHUB_REPO),
+    url='https://github.com/%s' % (REPO_NAME),
     classifiers=[
         'Development Status :: 4 - Beta',
         'License :: OSI Approved :: MIT License',
