@@ -52,5 +52,5 @@ Loading dotenv file to a dict with type casting ::
   config = read_file('.env', schema={
     'HOSTNAME': str,
     'PORT': int,
-    'IS_DEBUG': truthy,  # can be 1/true/on/yes
+    'IS_DEBUG': truth,  # either [1/true/on/yes] or [0/false/off/no]
   })

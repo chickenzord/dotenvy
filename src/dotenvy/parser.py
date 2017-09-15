@@ -12,10 +12,17 @@ import re
 
 
 QUOTES = ['"', '\'']
+TRUTHY_VALUES = ['1', 'true', 'yes', 'on']
+FALSY_VALUES = ['0', 'false', 'no', 'off']
 
 
-def truthy(string):
-    return string.lower() in ['1', 'true', 'yes', 'on']
+def truth(string):
+    if string.lower() in TRUTHY_VALUES:
+        return True
+    elif string.lower() in FALSY_VALUES:
+        return False
+    else:
+        raise ParseException('Invalid truth value')
 
 
 def is_blank(text):
