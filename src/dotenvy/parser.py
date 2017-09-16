@@ -7,6 +7,7 @@ from future import standard_library
 standard_library.install_aliases()
 
 from sys import version_info
+from string import Template
 from .exception import ParseException
 import re
 
@@ -73,11 +74,18 @@ def parse_line(line):
     return (key, parse_quoted(val))
 
 
-def parse_string(string, schema={}, *args, **kwargs):
-    pairs = [parse_line(line)
-             for line in string.splitlines() if is_pair(line.strip())]
-    envs = {key: val for key, val in pairs}
+def parse_string(string, schema={}, expand=False, environ=dict(),
+                 *args, **kwargs):
 
+    envs = dict()
+    for line in [l for l in string.splitlines() if is_pair(l.strip())]:
+        key, val = parse_line(line)
+        if expand:
+            envs[key] = Template(val.replace('\\$', '$$')).substitute(envs)
+        else:
+            envs[key] = val
+
+    # cast values according to the schema
     for key in schema:
         cast = schema[key]
         if key in envs:

@@ -117,6 +117,16 @@ def test_parse_line_with_single_quotes():
         key, val = parser.parse_line('message=\'hello ')
 
 
+def test_parse_line_with_special_chars():
+    key, val = parser.parse_line('hello_world="# lorem ip$um?"')
+    assert key == 'hello_world'
+    assert val == '# lorem ip$um?'
+
+    key, val = parser.parse_line('hello_world="my name is ${name} $age y.o."')
+    assert key == 'hello_world'
+    assert val == 'my name is ${name} $age y.o.'
+
+
 def test_parse_string():
     string = '''
     # just a comment
@@ -155,3 +165,20 @@ def test_parse_string_with_schema():
 
     with pytest.raises(exception.ParseException):
         parser.parse_string('MY_VAL=doh', schema={'MY_VAL': truth})
+
+
+def test_parse_string_with_expansion():
+    string = '''
+    # just a comment
+    name=johndoe
+    place=bekasi
+    message="my name is $name"
+    description="I was born in ${place}, I have \$100"
+    '''
+    envs = parser.parse_string(string, expand=True)
+    assert len(envs) == 4
+    assert envs['name'] == 'johndoe'
+    assert envs['message'] == 'my name is johndoe'
+    assert envs['description'] == 'I was born in bekasi, I have $100'
+
+    # TODO add cases for expansion with current environ
