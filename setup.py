@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 from setuptools import setup, find_packages
 
 
@@ -11,8 +13,15 @@ setup(
     packages=find_packages('src'),
     package_dir={'': 'src'},
     package_data={},
-    install_requires=[
-        'future',
+    install_requires=['future'],
+    setup_requires=[
+        'pytest-runner',
+        'flake8',
+        'flake8-commas'],
+    tests_require=[
+        'pytest',
+        'pytest-cov',
+        'backports.tempfile',
     ],
     zip_safe=False,
 

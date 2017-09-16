@@ -32,11 +32,6 @@ Installing ::
 
   pip install dotenvy
 
-Running tests ::
-
-  pip install tox
-  tox
-
 Common usage ::
 
   from dotenvy import load_env, read_file
@@ -54,3 +49,20 @@ Loading dotenv file to a dict with type casting ::
     'PORT': int,
     'IS_DEBUG': truth,  # either [1/true/on/yes] or [0/false/off/no]
   })
+
+
+development
+-----------
+
+Checking codestyle ::
+
+  ./setup.py stylecheck
+
+Running tests ::
+
+  ./setup.py test
+
+Running tests on all supported python versions ::
+
+  pip install tox
+  tox
