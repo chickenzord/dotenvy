@@ -163,8 +163,11 @@ def test_parse_string_with_schema():
     assert envs['BOOLEAN_TRUE'] is True
     assert envs['BOOLEAN_FALSE'] is False
 
-    with pytest.raises(exception.ParseException):
+    # invalid casts
+    with pytest.raises(ValueError):
         parser.parse_string('MY_VAL=doh', schema={'MY_VAL': truth})
+    with pytest.raises(ValueError):
+        parser.parse_string('MY_VAL=doh', schema={'MY_VAL': int})
 
 
 def test_parse_string_with_expansion():

@@ -24,7 +24,7 @@ def truth(string):
     elif string.lower() in FALSY_VALUES:
         return False
     else:
-        raise ParseException('Invalid truth value')
+        raise ValueError('Invalid truth value')
 
 
 def is_blank(text):
