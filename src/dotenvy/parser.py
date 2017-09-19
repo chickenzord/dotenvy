@@ -89,6 +89,7 @@ def parse_string(string, schema={}, expand=False, environ=dict(),
     # cast values according to the schema
     for key in schema:
         cast = schema[key]
+        cast = truth if cast == bool else cast
         if key in envs:
             envs[key] = cast(envs[key])
 

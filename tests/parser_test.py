@@ -7,7 +7,6 @@ standard_library.install_aliases()
 
 from dotenvy import parser
 from dotenvy import exception
-from dotenvy import truth
 import pytest
 
 
@@ -153,8 +152,8 @@ def test_parse_string_with_schema():
     schema = {
         'INT': int,
         'FLOAT': float,
-        'BOOLEAN_TRUE': truth,
-        'BOOLEAN_FALSE': truth,
+        'BOOLEAN_TRUE': bool,
+        'BOOLEAN_FALSE': bool,
     }
     envs = parser.parse_string(string, schema=schema)
     assert len(envs) == 4
@@ -165,7 +164,7 @@ def test_parse_string_with_schema():
 
     # invalid casts
     with pytest.raises(ValueError):
-        parser.parse_string('MY_VAL=doh', schema={'MY_VAL': truth})
+        parser.parse_string('MY_VAL=doh', schema={'MY_VAL': bool})
     with pytest.raises(ValueError):
         parser.parse_string('MY_VAL=doh', schema={'MY_VAL': int})
 
