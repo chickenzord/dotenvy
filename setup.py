@@ -8,8 +8,7 @@ VERSION = '0.1.2'
 ARCHIVE_URL = 'https://github.com/%s/archive/v%s.tar.gz' % (REPO_NAME, VERSION)
 
 setup(
-    name='dotenvy',
-    version=VERSION,
+    # packaging
     packages=find_packages('src'),
     package_dir={'': 'src'},
     package_data={},
@@ -23,11 +22,17 @@ setup(
     tests_require=[
         'pytest',
         'pytest-cov',
+        'mock',
         'backports.tempfile',
     ],
+    entry_points={
+        "console_scripts": ['dotenvy = dotenvy.cli:main']
+    },
     zip_safe=False,
 
     # metadata
+    name='dotenvy',
+    version=VERSION,
     author='Akhyar Amarullah',
     author_email='akhyrul@gmail.com',
     description='Dotenv handler for Python',

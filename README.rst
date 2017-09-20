@@ -32,7 +32,7 @@ Installing ::
 
   pip install dotenvy
 
-Common usage ::
+Common usage as library ::
 
   from dotenvy import load_env, read_file
   from os import environ
@@ -49,6 +49,14 @@ Loading dotenv file to a dict with type casting ::
     'PORT': int,
     'IS_DEBUG': bool,  # either [1/true/on/yes] or [0/false/off/no]
   })
+
+Using it as a CLI tool ::
+
+  # default dotenv file is '.env'
+  dotenvy ./mywebapp run
+
+  # using alternate dotenv file
+  dotenvy --file=prod.env ./mywebapp run
 
 
 development
