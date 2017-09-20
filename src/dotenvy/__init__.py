@@ -11,6 +11,9 @@ from .parser import parse_string
 from .parser import truth  # noqa
 
 
+__version__ = '0.1.2'
+
+
 def load_env(envs):
     for k in envs:
         environ[k] = envs[k]
