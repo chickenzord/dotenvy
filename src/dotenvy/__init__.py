@@ -11,7 +11,7 @@ from .parser import parse_string
 from .parser import truth  # noqa
 
 
-__version__ = '0.1.2'
+__version__ = '0.2.0'
 
 
 def load_env(envs):
