@@ -74,22 +74,22 @@ def parse_line(line):
     return (key, parse_quoted(val))
 
 
-def parse_string(string, schema={}, expand=False, environ={},
-                 *args, **kwargs):
-
-    envs = {}
+def parse_string(string, schema={}, expand=False, env={}, merge_env=False):
+    lookup = env.copy()
+    result = env.copy() if merge_env else {}
     for line in [l for l in string.splitlines() if is_pair(l.strip())]:
         key, val = parse_line(line)
         if expand:
-            envs[key] = Template(val.replace('\\$', '$$')).substitute(envs)
+            result[key] = Template(val.replace('\\$', '$$')).substitute(lookup)
         else:
-            envs[key] = val
+            result[key] = val
+        lookup[key] = result[key]  # cache the result to lookup dict
 
     # cast values according to the schema
     for key in schema:
         cast = schema[key]
         cast = truth if cast == bool else cast
-        if key in envs:
-            envs[key] = cast(envs[key])
+        if key in result:
+            result[key] = cast(result[key])
 
-    return envs
+    return result

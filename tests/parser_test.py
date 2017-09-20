@@ -173,7 +173,7 @@ def test_parse_string_with_expansion():
     string = '''
     # just a comment
     name=johndoe
-    place=bekasi
+    place=Bekasi
     message="my name is $name"
     description="I was born in ${place}, I have \$100"
     '''
@@ -181,6 +181,29 @@ def test_parse_string_with_expansion():
     assert len(envs) == 4
     assert envs['name'] == 'johndoe'
     assert envs['message'] == 'my name is johndoe'
-    assert envs['description'] == 'I was born in bekasi, I have $100'
+    assert envs['description'] == 'I was born in Bekasi, I have $100'
 
-    # TODO add cases for expansion with current environ
+    # with initial env injection
+    string = '''
+    # just a comment
+    name=johndoe
+    message="my name is $name"
+    description="I was born in ${place}, I have \$100"
+    '''
+    initial_env = {'place': 'Timbuktu'}
+
+    envs = parser.parse_string(string, expand=True,
+                               env=initial_env)
+    assert len(envs) == 3
+    assert envs['name'] == 'johndoe'
+    assert envs['message'] == 'my name is johndoe'
+    assert envs['description'] == 'I was born in Timbuktu, I have $100'
+
+    envs = parser.parse_string(string, expand=True,
+                               env=initial_env,
+                               merge_env=True)
+    assert len(envs) == 4
+    assert envs['name'] == 'johndoe'
+    assert envs['place'] == 'Timbuktu'
+    assert envs['message'] == 'my name is johndoe'
+    assert envs['description'] == 'I was born in Timbuktu, I have $100'
