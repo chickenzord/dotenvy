@@ -8,7 +8,6 @@ standard_library.install_aliases()
 
 from os import environ
 from .parser import parse_string
-from .parser import truth  # noqa
 
 
 __version__ = '0.2.0'
