@@ -22,6 +22,7 @@ setup(
     tests_require=[
         'pytest',
         'pytest-cov',
+        'mock',
         'backports.tempfile',
     ],
     entry_points={

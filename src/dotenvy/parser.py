@@ -2,7 +2,6 @@ from __future__ import unicode_literals
 from __future__ import print_function
 from __future__ import division
 from __future__ import absolute_import
-from builtins import dict
 from builtins import bytes
 from future import standard_library
 standard_library.install_aliases()
@@ -75,10 +74,10 @@ def parse_line(line):
     return (key, parse_quoted(val))
 
 
-def parse_string(string, schema={}, expand=False, environ=dict(),
+def parse_string(string, schema={}, expand=False, environ={},
                  *args, **kwargs):
 
-    envs = dict()
+    envs = {}
     for line in [l for l in string.splitlines() if is_pair(l.strip())]:
         key, val = parse_line(line)
         if expand:

@@ -9,11 +9,12 @@ standard_library.install_aliases()
 
 import argparse
 import subprocess
+import sys
 
 import dotenvy
 
 
-def main():
+def main(stdout=sys.stdout):
     description = '''
         Run any shell command with environment variables loaded from DotEnv file
         '''
@@ -27,10 +28,11 @@ def main():
     try:
         env = dotenvy.read_file(args.file)
     except IOError as e:
-        exit('Cannot load dotenv: %s\n%s' % (args.file, str(e)))
+        sys.exit('Cannot load dotenv: %s\n%s' % (args.file, str(e)))
 
-    subprocess.Popen(' '.join(args.commands), env=env, shell=True).wait()
+    subprocess.call(' '.join(args.commands),
+                    env=env, shell=True, stdout=stdout)
 
 
-if __name__ == '__main__':
+if __name__ == '__main__':  # pragma: no cover
     main()
