@@ -8,6 +8,7 @@ from future import standard_library
 standard_library.install_aliases()
 
 import argparse
+import os
 import subprocess
 import sys
 
@@ -26,7 +27,8 @@ def main(stdout=sys.stdout):
     args = parser.parse_args()
 
     try:
-        env = dotenvy.read_file(args.file)
+        env = os.environ.copy()
+        env.update(dotenvy.read_file(args.file))
     except IOError as e:
         sys.exit('Cannot load dotenv: %s\n%s' % (args.file, str(e)))
 
