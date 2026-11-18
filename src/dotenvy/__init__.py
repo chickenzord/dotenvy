@@ -2,7 +2,7 @@ from os import environ
 
 from .parser import parse_string
 
-__version__ = "0.2.0"
+__version__ = "1.0.0"
 
 
 def load_env(envs):
