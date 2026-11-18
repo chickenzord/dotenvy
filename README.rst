@@ -1,76 +1,73 @@
 dotenvy
 =======
 
-.. image:: https://img.shields.io/travis/chickenzord/dotenvy.svg?style=flat-square
-    :target: https://travis-ci.org/chickenzord/dotenvy
+.. image:: https://img.shields.io/github/actions/workflow/status/chickenzord/dotenvy/ci.yml?branch=master&style=flat-square
+    :target: https://github.com/chickenzord/dotenvy/actions/workflows/ci.yml
     :alt: Build status
-
-.. image:: https://img.shields.io/coveralls/chickenzord/dotenvy.svg?style=flat-square
-    :target: https://coveralls.io/github/chickenzord/dotenvy
-    :alt: Coverage status
 
 .. image:: https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square
     :target: https://raw.githubusercontent.com/chickenzord/dotenvy/master/LICENSE.txt
     :alt: MIT license
 
 .. image:: https://img.shields.io/pypi/v/dotenvy.svg?style=flat-square
-    :target: https://pypi.python.org/pypi/dotenvy
+    :target: https://pypi.org/project/dotenvy/
     :alt: PyPI package version
 
 .. image:: https://img.shields.io/pypi/pyversions/dotenvy.svg?style=flat-square
-    :target: https://pypi.python.org/pypi/dotenvy
+    :target: https://pypi.org/project/dotenvy/
     :alt: PyPI python version
 
 
 Dotenv handler for Python
 
 
-usages
+Usages
 ------
 
 Installing ::
 
-  pip install dotenvy
+  uv add dotenvy
+  # or: pip install dotenvy
 
 Common usage as library ::
 
-  from dotenvy import load_env, read_file
   from os import environ
+  from dotenvy import load_env, read_file
 
   load_env(read_file('.env'))
   my_var = environ.get('MY_VAR')
 
 Loading dotenv file to a dict with type casting ::
 
-  from dotenvy import read_file, truthy
+  from dotenvy import read_file
 
   config = read_file('.env', schema={
-    'HOSTNAME': str,
-    'PORT': int,
-    'IS_DEBUG': bool,  # either [1/true/on/yes] or [0/false/off/no]
+      'HOSTNAME': str,
+      'PORT': int,
+      'IS_DEBUG': bool,  # either [1/true/on/yes] or [0/false/off/no]
   })
 
 Using it as a CLI tool ::
 
-  # default dotenv file is '.env'
-  dotenvy ./mywebapp run
+  # run directly via uvx
+  uvx dotenvy ./mywebapp run
 
   # using alternate dotenv file
-  dotenvy --file=prod.env ./mywebapp run
+  uvx dotenvy --file=prod.env ./mywebapp run
 
 
-development
+Development
 -----------
 
-Checking codestyle ::
+Install dependencies ::
 
-  ./setup.py stylecheck
+  uv sync
 
 Running tests ::
 
-  ./setup.py test
+  uv run pytest
 
-Running tests on all supported python versions ::
+Checking code style and linting ::
 
-  pip install tox
-  tox
+  uv run ruff check
+  uv run ruff format --check

@@ -1,12 +1,3 @@
-#!/usr/bin/env python
-from __future__ import unicode_literals
-from __future__ import print_function
-from __future__ import division
-from __future__ import absolute_import
-from builtins import str
-from future import standard_library
-standard_library.install_aliases()
-
 import argparse
 import os
 import subprocess
@@ -16,25 +7,32 @@ import dotenvy
 
 
 def main(stdout=sys.stdout):
-    description = '''
-        Run any shell command with environment variables loaded from DotEnv file
-        '''
+    description = (
+        "Run any shell command with environment variables loaded from DotEnv file"
+    )
     parser = argparse.ArgumentParser(description=description)
-    parser.add_argument('--file', type=str, default='.env',
-                        help='dotenv file path (default: .env)')
-    parser.add_argument('commands', type=str, nargs='+',
-                        help='command to run')
+    parser.add_argument(
+        "--file",
+        type=str,
+        default=".env",
+        help="dotenv file path (default: .env)",
+    )
+    parser.add_argument(
+        "commands",
+        type=str,
+        nargs="+",
+        help="command to run",
+    )
     args = parser.parse_args()
 
     try:
         env = os.environ.copy()
         env.update(dotenvy.read_file(args.file))
-    except IOError as e:
-        sys.exit('Cannot load dotenv: %s\n%s' % (args.file, str(e)))
+    except OSError as e:
+        sys.exit(f"Cannot load dotenv: {args.file}\n{e}")
 
-    subprocess.call(' '.join(args.commands),
-                    env=env, shell=True, stdout=stdout)
+    subprocess.call(" ".join(args.commands), env=env, shell=True, stdout=stdout)
 
 
-if __name__ == '__main__':  # pragma: no cover
+if __name__ == "__main__":  # pragma: no cover
     main()
