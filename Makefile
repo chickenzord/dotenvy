@@ -1,10 +1,21 @@
 tasks:
 	@git grep -EI "TODO|FIXME" | grep -v -E '^Makefile:'
 
+sync:
+	uv sync
+
 test:
-	./setup.py test
+	uv run pytest
 
-test-all:
-	tox
+lint:
+	uv run ruff check
+	uv run ruff format --check
 
-.PHONY: tasks test test-all
+format:
+	uv run ruff format
+	uv run ruff check --fix
+
+build:
+	uv build
+
+.PHONY: tasks sync test lint format build

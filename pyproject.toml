@@ -1,0 +1,74 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "dotenvy"
+dynamic = ["version"]
+description = "Dotenv handler for Python"
+readme = "README.rst"
+requires-python = ">=3.9"
+license = "MIT"
+authors = [
+    { name = "Akhyar Amarullah", email = "akhyrul@gmail.com" },
+]
+keywords = ["dotenv", "configuration", "environment"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "License :: OSI Approved :: MIT License",
+    "Intended Audience :: Developers",
+    "Operating System :: POSIX :: Linux",
+    "Operating System :: MacOS",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Software Development :: Libraries",
+    "Topic :: Utilities",
+]
+dependencies = []
+
+[project.scripts]
+dotenvy = "dotenvy.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/chickenzord/dotenvy"
+Repository = "https://github.com/chickenzord/dotenvy.git"
+
+[tool.hatch.version]
+path = "src/dotenvy/__init__.py"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/dotenvy"]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0.0",
+    "pytest-cov>=5.0.0",
+    "ruff>=0.8.0",
+]
+
+[tool.pytest.ini_options]
+addopts = "-v --cov=dotenvy --cov-report=term-missing"
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 88
+target-version = "py39"
+
+[tool.ruff.lint]
+select = [
+    "E",   # pycodestyle errors
+    "W",   # pycodestyle warnings
+    "F",   # pyflakes
+    "I",   # isort
+    "UP",  # pyupgrade
+    "B",   # flake8-bugbear
+]
+ignore = []
+
+[tool.ruff.lint.isort]
+known-first-party = ["dotenvy"]

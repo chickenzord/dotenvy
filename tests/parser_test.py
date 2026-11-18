@@ -5,74 +5,74 @@ from dotenvy import exception, parser
 
 def test_parser_is_blank():
     # positive cases
-    assert parser.is_blank('') is True
-    assert parser.is_blank('   ') is True
-    assert parser.is_blank('\n') is True
+    assert parser.is_blank("") is True
+    assert parser.is_blank("   ") is True
+    assert parser.is_blank("\n") is True
 
     # negative cases
-    assert parser.is_blank('hello=world') is False
-    assert parser.is_blank('   hello=world   ') is False
-    assert parser.is_blank('\n hello=world') is False
+    assert parser.is_blank("hello=world") is False
+    assert parser.is_blank("   hello=world   ") is False
+    assert parser.is_blank("\n hello=world") is False
 
 
 def test_parser_is_comment():
     # positive cases
-    assert parser.is_comment('# hello world') is True
+    assert parser.is_comment("# hello world") is True
 
     # negative cases
-    assert parser.is_comment('hello=world') is False
-    assert parser.is_comment('hello # world') is False
+    assert parser.is_comment("hello=world") is False
+    assert parser.is_comment("hello # world") is False
 
 
 def test_parser_is_pair():
     # positive cases
-    assert parser.is_pair('hello=world') is True
+    assert parser.is_pair("hello=world") is True
     assert parser.is_pair('hello="world"') is True
     assert parser.is_pair("hello='world'") is True
 
     # negative cases
-    assert parser.is_pair('hello = world') is False
-    assert parser.is_pair('hello= world') is False
-    assert parser.is_pair('hello = world') is False
+    assert parser.is_pair("hello = world") is False
+    assert parser.is_pair("hello= world") is False
+    assert parser.is_pair("hello = world") is False
 
 
 def test_parse_line_without_quotes():
-    key, val = parser.parse_line('hello=world')
-    assert key == 'hello'
-    assert val == 'world'
+    key, val = parser.parse_line("hello=world")
+    assert key == "hello"
+    assert val == "world"
 
 
 def test_parse_line_invalid():
     with pytest.raises(exception.ParseException):
-        parser.parse_line('# hello')
+        parser.parse_line("# hello")
     with pytest.raises(exception.ParseException):
-        parser.parse_line('not a key-val pair')
+        parser.parse_line("not a key-val pair")
 
 
 def test_parse_line_with_blank_value():
-    key, val = parser.parse_line('hello=')
-    assert key == 'hello'
-    assert val == ''
+    key, val = parser.parse_line("hello=")
+    assert key == "hello"
+    assert val == ""
 
-    key, val = parser.parse_line(' hello= ')
-    assert key == 'hello'
-    assert val == ''
+    key, val = parser.parse_line(" hello= ")
+    assert key == "hello"
+    assert val == ""
 
 
 def test_parse_line_with_double_quotes():
     # normal case
     key, val = parser.parse_line('hello="world"')
-    assert key == 'hello'
-    assert val == 'world'
+    assert key == "hello"
+    assert val == "world"
 
     # with surrounding whitespaces
     key, val = parser.parse_line(' hello="world" ')
-    assert key == 'hello'
-    assert val == 'world'
+    assert key == "hello"
+    assert val == "world"
 
     # with escaped quotes
     key, val = parser.parse_line(r'message="hello \"world\""')
-    assert key == 'message'
+    assert key == "message"
     assert val == 'hello "world"'
 
     # missing closing quote
@@ -87,17 +87,17 @@ def test_parse_line_with_double_quotes():
 def test_parse_line_with_single_quotes():
     # normal case
     key, val = parser.parse_line("hello='world'")
-    assert key == 'hello'
-    assert val == 'world'
+    assert key == "hello"
+    assert val == "world"
 
     # with surrounding whitespaces
     key, val = parser.parse_line(" hello='world' ")
-    assert key == 'hello'
-    assert val == 'world'
+    assert key == "hello"
+    assert val == "world"
 
     # with escaped quotes
     key, val = parser.parse_line(r"message='hello \'world\''")
-    assert key == 'message'
+    assert key == "message"
     assert val == "hello 'world'"
 
     # missing closing quote
@@ -111,12 +111,12 @@ def test_parse_line_with_single_quotes():
 
 def test_parse_line_with_special_chars():
     key, val = parser.parse_line('hello_world="# lorem ip$um?"')
-    assert key == 'hello_world'
-    assert val == '# lorem ip$um?'
+    assert key == "hello_world"
+    assert val == "# lorem ip$um?"
 
     key, val = parser.parse_line('hello_world="my name is ${name} $age y.o."')
-    assert key == 'hello_world'
-    assert val == 'my name is ${name} $age y.o.'
+    assert key == "hello_world"
+    assert val == "my name is ${name} $age y.o."
 
 
 def test_parse_string():
@@ -128,9 +128,9 @@ def test_parse_string():
     """
     envs = parser.parse_string(string)
     assert len(envs) == 3
-    assert envs['HELLO'] == 'WORLD'
-    assert envs['lorem'] == 'ipsum'
-    assert envs['dolor'] == 'sit amet'
+    assert envs["HELLO"] == "WORLD"
+    assert envs["lorem"] == "ipsum"
+    assert envs["dolor"] == "sit amet"
 
 
 def test_parse_string_with_schema():
@@ -141,23 +141,23 @@ def test_parse_string_with_schema():
     BOOLEAN_FALSE=0
     """
     schema = {
-        'INT': int,
-        'FLOAT': float,
-        'BOOLEAN_TRUE': bool,
-        'BOOLEAN_FALSE': bool,
+        "INT": int,
+        "FLOAT": float,
+        "BOOLEAN_TRUE": bool,
+        "BOOLEAN_FALSE": bool,
     }
     envs = parser.parse_string(string, schema=schema)
     assert len(envs) == 4
-    assert envs['INT'] == 1406
-    assert envs['FLOAT'] == 14.06
-    assert envs['BOOLEAN_TRUE'] is True
-    assert envs['BOOLEAN_FALSE'] is False
+    assert envs["INT"] == 1406
+    assert envs["FLOAT"] == 14.06
+    assert envs["BOOLEAN_TRUE"] is True
+    assert envs["BOOLEAN_FALSE"] is False
 
     # invalid casts
     with pytest.raises(ValueError):
-        parser.parse_string('MY_VAL=doh', schema={'MY_VAL': bool})
+        parser.parse_string("MY_VAL=doh", schema={"MY_VAL": bool})
     with pytest.raises(ValueError):
-        parser.parse_string('MY_VAL=doh', schema={'MY_VAL': int})
+        parser.parse_string("MY_VAL=doh", schema={"MY_VAL": int})
 
 
 def test_parse_string_with_expansion():
@@ -170,9 +170,9 @@ def test_parse_string_with_expansion():
     """
     envs = parser.parse_string(string, expand=True)
     assert len(envs) == 4
-    assert envs['name'] == 'johndoe'
-    assert envs['message'] == 'my name is johndoe'
-    assert envs['description'] == 'I was born in Bekasi, I have $100'
+    assert envs["name"] == "johndoe"
+    assert envs["message"] == "my name is johndoe"
+    assert envs["description"] == "I was born in Bekasi, I have $100"
 
     # with initial env injection
     string = r"""
@@ -181,19 +181,17 @@ def test_parse_string_with_expansion():
     message="my name is $name"
     description="I was born in ${place}, I have \$100"
     """
-    initial_env = {'place': 'Timbuktu'}
+    initial_env = {"place": "Timbuktu"}
 
     envs = parser.parse_string(string, expand=True, env=initial_env)
     assert len(envs) == 3
-    assert envs['name'] == 'johndoe'
-    assert envs['message'] == 'my name is johndoe'
-    assert envs['description'] == 'I was born in Timbuktu, I have $100'
+    assert envs["name"] == "johndoe"
+    assert envs["message"] == "my name is johndoe"
+    assert envs["description"] == "I was born in Timbuktu, I have $100"
 
-    envs = parser.parse_string(
-        string, expand=True, env=initial_env, merge_env=True
-    )
+    envs = parser.parse_string(string, expand=True, env=initial_env, merge_env=True)
     assert len(envs) == 4
-    assert envs['name'] == 'johndoe'
-    assert envs['place'] == 'Timbuktu'
-    assert envs['message'] == 'my name is johndoe'
-    assert envs['description'] == 'I was born in Timbuktu, I have $100'
+    assert envs["name"] == "johndoe"
+    assert envs["place"] == "Timbuktu"
+    assert envs["message"] == "my name is johndoe"
+    assert envs["description"] == "I was born in Timbuktu, I have $100"
