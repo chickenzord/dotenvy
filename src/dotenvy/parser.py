@@ -1,26 +1,18 @@
-from __future__ import unicode_literals
-from __future__ import print_function
-from __future__ import division
-from __future__ import absolute_import
-from builtins import bytes
-from future import standard_library
-standard_library.install_aliases()
-
-from sys import version_info
-from string import Template
-from .exception import ParseException
 import re
+from string import Template
 
+from .exception import ParseException
 
-QUOTES = ['"', '\'']
+QUOTES = ['"', "'"]
 TRUTHY_VALUES = ['1', 'true', 'yes', 'on']
 FALSY_VALUES = ['0', 'false', 'no', 'off']
 
 
 def truth(string):
-    if string.lower() in TRUTHY_VALUES:
+    lowered = string.lower()
+    if lowered in TRUTHY_VALUES:
         return True
-    elif string.lower() in FALSY_VALUES:
+    elif lowered in FALSY_VALUES:
         return False
     else:
         raise ValueError('Invalid truth value')
@@ -39,10 +31,7 @@ def is_pair(line):
 
 
 def unescape(text):
-    if version_info.major <= 2:
-        return text.decode('string_escape')
-    else:
-        return bytes(text, 'utf-8').decode('unicode_escape')
+    return bytes(text, 'utf-8').decode('unicode_escape')
 
 
 def parse_quoted(text):
@@ -74,21 +63,24 @@ def parse_line(line):
     return (key, parse_quoted(val))
 
 
-def parse_string(string, schema={}, expand=False, env={}, merge_env=False):
+def parse_string(string, schema=None, expand=False, env=None, merge_env=False):
+    if schema is None:
+        schema = {}
+    if env is None:
+        env = {}
+
     lookup = env.copy()
     result = env.copy() if merge_env else {}
-    for line in [l for l in string.splitlines() if is_pair(l.strip())]:
+    for line in [line for line in string.splitlines() if is_pair(line.strip())]:
         key, val = parse_line(line)
         if expand:
-            result[key] = Template(val.replace('\\$', '$$')).substitute(lookup)
+            result[key] = Template(val.replace(r'\$', '$$')).substitute(lookup)
         else:
             result[key] = val
-        lookup[key] = result[key]  # cache the result to lookup dict
+        lookup[key] = result[key]
 
-    # cast values according to the schema
-    for key in schema:
-        cast = schema[key]
-        cast = truth if cast == bool else cast
+    for key, cast in schema.items():
+        cast = truth if cast is bool else cast
         if key in result:
             result[key] = cast(result[key])
 

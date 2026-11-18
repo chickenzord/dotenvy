@@ -1,15 +1,7 @@
-from __future__ import unicode_literals
-from __future__ import print_function
-from __future__ import division
-from __future__ import absolute_import
-from builtins import open
-from future import standard_library
-standard_library.install_aliases()
+from os import environ, path
+from tempfile import TemporaryDirectory
 
-from backports.tempfile import TemporaryDirectory
-from os import path, environ
 import dotenvy
-
 
 FILE_CONTENT = """
         # just a comment
@@ -38,10 +30,10 @@ def test_load_string():
 def test_read_file():
     with TemporaryDirectory() as d:
         filepath = path.join(d, 'test.env')
-        with open(filepath, 'wb') as f:
-            f.write(FILE_CONTENT.encode('utf-8'))
+        with open(filepath, 'w', encoding='utf-8') as f:
+            f.write(FILE_CONTENT)
 
-        envs = dotenvy.read_file(f.name)
+        envs = dotenvy.read_file(filepath)
         assert len(envs) == 5
         assert envs['HELLO'] == 'WORLD'
         assert envs['lorem'] == 'ipsum'
